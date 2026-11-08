@@ -1,0 +1,68 @@
+# ==========================================
+# Health Diary — Git Ignore
+# ==========================================
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local configuration
+*.local
+application-local.yml
+application-local.yaml
+application-local.properties
+
+# Frontend — Node.js / React / Vite
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Backend — Java / Spring Boot / Maven
+target/
+*.class
+*.jar
+*.war
+*.log
+
+# Java IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Operating system
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Local uploads and private documents
+uploads/
+storage/
+private-files/
+
+# Database dumps and backups
+*.sql.gz
+*.dump
+*.backup
+
+# Test artifacts
+test-results/
+playwright-report/
