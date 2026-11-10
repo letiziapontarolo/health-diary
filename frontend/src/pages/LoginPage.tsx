@@ -107,7 +107,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-lg bg-slate-900 px-4 py-3 font-medium text-white disabled:opacity-50"
+            className="cursor-pointer w-full rounded-lg bg-slate-900 px-4 py-3 font-medium text-white disabled:opacity-50"
           >
             {isSubmitting ? 'Accesso in corso...' : 'Accedi'}
           </button>
@@ -117,7 +117,7 @@ export default function LoginPage() {
           Non hai un account?{' '}
           <Link
             to="/register"
-            className="font-medium text-slate-900 underline"
+            className="cursor-pointer font-medium text-slate-900 underline"
           >
             Registrati
           </Link>
