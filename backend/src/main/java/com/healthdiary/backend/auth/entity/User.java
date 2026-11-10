@@ -61,4 +61,25 @@ public class User {
         this.passwordHash = passwordHash;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
 }
