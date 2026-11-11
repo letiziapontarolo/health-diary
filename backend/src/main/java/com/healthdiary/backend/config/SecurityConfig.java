@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/api/auth/csrf")
                         .permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
                 .securityContext(context -> context
                         .securityContextRepository(securityContextRepository()))
