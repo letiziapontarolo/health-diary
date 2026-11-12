@@ -21,14 +21,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
 import com.healthdiary.backend.medical.entity.MedicalService;
-import com.healthdiary.backend.medical.entity.MedicalServiceOption;
-import com.healthdiary.backend.medical.entity.OptionSelectionMode;
 import com.healthdiary.backend.medical.dto.MedicalServiceResponse;
-import com.healthdiary.backend.medical.dto.MedicalServiceOptionResponse;
 import org.springframework.http.HttpStatus;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class MedicalCatalogServiceTest {

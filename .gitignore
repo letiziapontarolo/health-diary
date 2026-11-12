@@ -66,3 +66,6 @@ private-files/
 # Test artifacts
 test-results/
 playwright-report/
+
+# Local HTTP session cookies
+cookies.txt
