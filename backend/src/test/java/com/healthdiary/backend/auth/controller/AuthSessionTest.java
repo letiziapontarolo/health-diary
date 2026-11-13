@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.postgresql.PostgreSQLContainer;
@@ -35,6 +33,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class AuthSessionTest {
 
     @Container
+    @SuppressWarnings("resource")
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17")
             .withDatabaseName("health_diary_test")
             .withUsername("test")
