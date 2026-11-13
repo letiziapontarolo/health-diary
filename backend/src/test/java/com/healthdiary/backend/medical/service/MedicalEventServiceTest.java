@@ -7,8 +7,7 @@ import com.healthdiary.backend.medical.dto.MedicalEventResponse;
 import com.healthdiary.backend.medical.entity.*;
 import com.healthdiary.backend.medical.repository.*;
 import com.healthdiary.backend.medical.dto.MedicalEventFilter;
-import org.springframework.data.jpa.domain.Specification;
-
+import com.healthdiary.backend.document.repository.MedicalEventDocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +36,9 @@ class MedicalEventServiceTest {
 
         @Mock
         private MedicalEventRepository eventRepository;
+
+        @Mock
+        private MedicalEventDocumentRepository documentLinkRepository;
 
         @Mock
         private MedicalServiceRepository serviceRepository;
