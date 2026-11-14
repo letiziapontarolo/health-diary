@@ -1858,4 +1858,69 @@ class MedicalEventIntegrationTest {
                                 .andExpect(jsonPath("$[0].status").value("COMPLETED"));
         }
 
+        // M7 - Calendar and Dashboard: reuse the existing medical-events API.
+
+        @Test
+        void calendarMonthReturnsOnlyOwnEventsWithinInclusiveDates() throws Exception {
+                LocalDate month = LocalDate.now(clock).plusMonths(2).withDayOfMonth(1);
+                MedicalEventResponse first = createEventForFiltering(service.getId(), month);
+                MedicalEventResponse last = createEventForFiltering(service.getId(), month.plusMonths(1).minusDays(1));
+                createEventForFiltering(service.getId(), month.minusDays(1));
+                createEventForFiltering(service.getId(), month.plusMonths(1));
+                medicalEventService.createEvent(giulia.getEmail(), new CreateMedicalEventRequest(
+                                service.getId(), month.plusDays(1), null, null, null, null, List.of()));
+
+                mockMvc.perform(get("/api/medical-events")
+                                .with(user(mario.getEmail()))
+                                .param("fromDate", month.toString())
+                                .param("toDate", month.plusMonths(1).minusDays(1).toString()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(2))
+                                .andExpect(jsonPath("$[0].id").value(last.id()))
+                                .andExpect(jsonPath("$[1].id").value(first.id()));
+        }
+
+        @Test
+        void dashboardRecentCompletedEventsExcludeScheduledAndCancelled() throws Exception {
+                LocalDate today = LocalDate.now(clock);
+                MedicalEventResponse older = createEventForFiltering(service.getId(), today.minusDays(8));
+                MedicalEventResponse newer = createEventForFiltering(service.getId(), today.minusDays(2));
+                MedicalEventResponse cancelled = createEventForFiltering(service.getId(), today.minusDays(1));
+                medicalEventService.cancelEvent(cancelled.id(), mario.getEmail());
+                createEventForFiltering(service.getId(), today.plusDays(3));
+
+                mockMvc.perform(get("/api/medical-events")
+                                .with(user(mario.getEmail()))
+                                .param("status", "COMPLETED")
+                                .param("toDate", today.toString()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(2))
+                                .andExpect(jsonPath("$[0].id").value(newer.id()))
+                                .andExpect(jsonPath("$[1].id").value(older.id()));
+        }
+
+        @Test
+        void calendarCanRetrieveCancelledEventsForClientSideExclusion() throws Exception {
+                LocalDate day = LocalDate.now(clock).plusDays(4);
+                MedicalEventResponse active = createEventForFiltering(service.getId(), day);
+                MedicalEventResponse cancelled = createEventForFiltering(service.getId(), day);
+                medicalEventService.cancelEvent(cancelled.id(), mario.getEmail());
+
+                mockMvc.perform(get("/api/medical-events")
+                                .with(user(mario.getEmail()))
+                                .param("fromDate", day.toString())
+                                .param("toDate", day.toString()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(2));
+
+                mockMvc.perform(get("/api/medical-events")
+                                .with(user(mario.getEmail()))
+                                .param("status", "SCHEDULED")
+                                .param("fromDate", day.toString())
+                                .param("toDate", day.toString()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(1))
+                                .andExpect(jsonPath("$[0].id").value(active.id()));
+        }
+
 }
